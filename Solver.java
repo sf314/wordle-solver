@@ -14,7 +14,7 @@ public class Solver {
         // Read dictionary file into list
         List<String> lines;
         try {
-            Stream<String> stringStream = Files.lines(Paths.get("dictionary.txt"));
+            Stream<String> stringStream = Files.lines(Paths.get(DICT_FILE));
             lines = stringStream.toList();
             stringStream.close(); // Required per Closable iface
         } catch (Exception e) {
@@ -26,10 +26,6 @@ public class Solver {
         for (String l : lines) {
             dictionary.add(l);
         }
-        List<String> dictionary2 = new ArrayList<>(dictionary); // Clone
-        dictionary2.removeIf((word) -> {
-            return word.contains("a");
-        });
 
         // Validate dictionary
         System.out.println("Dictionary is of size: " + dictionary.size());
