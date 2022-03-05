@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 
 public class Dictionary {
 
+    // Config
+    private static final String DICT_FILE = "dictionary.txt";
+
     // Props
     private List<String> fullWordList;
     private List<String> filteredList;
@@ -18,11 +21,32 @@ public class Dictionary {
 
     }
 
-    // Funcs
-    public void loadFrom(String filePath) {
+    /**
+     * Initialize the dictionary using the default wordlist
+     */
+    public void init() {
+        this.loadFrom(DICT_FILE);
+    }
+
+    /**
+     * Initialize the dictionary using a custom wordlist, specified at the 
+     * provided file path. 
+     * @param filePath The path to a custom wordlist.
+     */
+    public void init(String filePath) {
+        this.loadFrom(filePath);
+    }
+    
+    /**
+     * Populate the full word list with the contents of the specified file. This
+     * also initializes the filtered word list using the same data.
+     * @param filePath The path to a word list.
+     * @throws RuntimeException When the file could not be read.
+     */
+    private void loadFrom(String filePath) {
         List<String> lines;
         try {
-            Stream<String> stringStream = Files.lines(Paths.get("dictionary.txt"));
+            Stream<String> stringStream = Files.lines(Paths.get(filePath));
             lines = stringStream.toList();
             stringStream.close(); // Required per Closable iface
         } catch (Exception e) {
