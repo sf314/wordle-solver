@@ -22,7 +22,8 @@ public class Dictionary {
     }
 
     /**
-     * Initialize the dictionary using the default wordlist
+     * Initialize the dictionary using the default wordlist, and determine 
+     * current letter frequency.
      */
     public void init() {
         this.loadFrom(DICT_FILE);
@@ -30,7 +31,7 @@ public class Dictionary {
 
     /**
      * Initialize the dictionary using a custom wordlist, specified at the 
-     * provided file path. 
+     * provided file path. Also determine current letter frequency.
      * @param filePath The path to a custom wordlist.
      */
     public void init(String filePath) {
@@ -60,5 +61,29 @@ public class Dictionary {
 
         // Make second copy of word list for filtering
         this.filteredList = new ArrayList<>(this.fullWordList);
+    }
+
+    private Map<Character, Float> determineLetterFrequency(List<String> wordList) {
+        // Note: Technically case doesn't matter (which makes this case-sensitive)
+
+        // Count number of times each letter appears in the list
+        int totalLetters = 0;
+        Map<Character, Integer> letterCounts = new HashMap<>();
+        for (String word : wordList) {
+            for (int i = 0; i < word.length(); i++) {
+                Character letter = word.charAt(i)
+                totalLetters++;
+
+                // If this letter isn't in the map yet, then create an entry for it
+                if (!letterCounts.containsKey(letter)) {
+                    letterCounts.put(letter, 0);
+                }
+
+                // Increment the count for this letter
+                letterCounts.put(letter, letterCounts.get(letter) + 1);
+            }
+        }
+
+        // Compute frequency percentage for each letter
     }
 }
