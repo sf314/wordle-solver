@@ -29,12 +29,12 @@ public class Dictionary {
             throw new RuntimeException("Failed to load dictionary: " + e.getMessage(), e);
         }
 
-        List<String> fullWordList = new ArrayList<>();
+        this.fullWordList = new ArrayList<>();
         for (String l : lines) {
-            fullWordList.add(l);
+            this.fullWordList.add(l);
         }
 
         // Make second copy of word list for filtering
-        filteredList = new ArrayList<>(fullWordList);
+        this.filteredList = new ArrayList<>(this.fullWordList);
     }
 }
