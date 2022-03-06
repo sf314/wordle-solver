@@ -41,6 +41,151 @@ public class Dictionary {
      */
     public void init(String filePath) {
         this.loadFrom(filePath);
+        this.letterFrequency = this.determineLetterFrequency(this.filteredList);
+    }
+
+    /**
+     * Check if a word exists in the dictionary (full word list)
+     * @param word
+     * @return
+     */
+    public boolean contains(String word) {
+        return this.fullWordList.contains(word);
+    }
+
+    /**
+     * Get word at specified index
+     * @param index
+     * @return
+     */
+    public String getWord(int index) {
+        return this.filteredList.get(index);
+    }
+
+    /**
+     * Get the number of words in the current filtered list
+     * @return
+     */
+    public int getSize() {
+        return this.filteredList.size();
+    }
+
+    /**
+     * Apply filter to the current wordlist based on feedback hint from Wordle.
+     * This updates the object's internal filtered wordlist.
+     * @param letter The desired letter to filter
+     * @param status One of 'b', 'y', or 'g', else report exception
+     * @param index The 0-based index of the letter, from 0 thru 4
+     * @return The new size of the wordlist after filtering.
+     */
+    public int filter(char letter, char status, int index) {
+        if (status == 'b') {
+            System.out.println("Eliminating all words with " + letter);
+            // Remove all words containing x
+            this.filteredList.removeIf((word) -> {
+                return word.contains(String.valueOf(letter));
+            });
+        } else if (status == 'y') {
+            System.out.println("Eliminating all words without " + letter);
+            // Remove all words that don't contain x at all
+            this.filteredList.removeIf((word) -> {
+                return !word.contains(String.valueOf(letter));
+            });
+
+            System.out.println("Eliminating all words with " + letter + " at index " + index);
+            // Remove all words that contain x at this specific index
+            final int idex = index; // Required due to lambda grrrr
+            this.filteredList.removeIf((word) -> {
+                return word.charAt(idex) == letter;
+            });
+        } else if (status == 'g') {
+            System.out.println("Eliminating all words without " + letter + " at index " + index);
+            // Remove all words that don't have x at this specific index
+            final int idex = index;
+            this.filteredList.removeIf((word) -> {
+                return word.charAt(idex) != letter;
+            });
+        } else {
+            throw new RuntimeException("Invalid letter status " + status);
+        }
+
+        // Re-compute frequency of letters in new list
+        this.letterFrequency = this.determineLetterFrequency(this.filteredList);
+
+        return this.filteredList.size();
+    }
+
+    /**
+     * Print an ordered list of the letter frequency for the current wordlist.
+     * Limit the number of printed lines by the top `maxLetters` letters.
+     * @param maxLetters
+     */
+    public void printLetterFrequency(Integer maxLetters) {
+        // List of all frequency entries
+        List<FrequencyEntry> entries = this.letterFrequency;
+
+        // Sort entries by frequency
+        entries.sort((e1, e2) -> {
+            return Float.compare(e2.getFrequency(), e1.getFrequency()); // Reversed to get largest-to-smallest ordering
+        });
+
+        // Print up to maxLetters entries
+        int limit = Integer.min(maxLetters, entries.size());
+        for (int i = 0; i < limit; i++) {
+            char letter = entries.get(i).getLetter();
+            float freq = entries.get(i).getFrequency();
+            System.out.println(letter + ": " + freq);
+        }
+    }
+
+    /**
+     * Print an ordered list of the top words by score
+     * @param maxWords
+     */
+    public void printTopWords(int maxWords) {
+        // Create copy list of all words
+        List<String> topWords = new ArrayList<>();
+        topWords.addAll(this.filteredList);
+
+        // Sort the list
+        topWords.sort((w1, w2) -> {
+            Float s1 = this.scoreForWord(w1);
+            Float s2 = this.scoreForWord(w2);
+            return s2.compareTo(s1);
+        });
+
+        // Print words, up to `maxWords`
+        int limit = Integer.min(maxWords, topWords.size());
+        for (int i = 0; i < limit; i++) {
+            String word = topWords.get(i);
+            System.out.println((i + 1) + ". " + word + ": " + this.scoreForWord(word));
+        }
+    }
+
+    private Float scoreForWord(String word) {
+        // Convert letter frequency to map for easy lookup
+        Map<Character, Float> freqMap = new HashMap<>();
+        this.letterFrequency.forEach((entry) -> {
+            freqMap.put(entry.getLetter(), entry.getFrequency());
+        });
+
+
+        // Note: Repeated letters should not be counted twice!
+        // Therefore, use map to ensure we don't have duplicates!
+        Map<Character, Float> letterScore = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            char letter = word.charAt(i);
+            float letterFreq = freqMap.getOrDefault(letter, 0F);
+            letterScore.put(letter, letterFreq);
+        }
+
+        // Add up frequencies for letters
+        Float score = 0F;
+        for (Float f : letterScore.values().stream().toList()) {
+            score += f;
+        };
+
+        return score;
     }
     
     /**
