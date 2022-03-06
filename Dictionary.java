@@ -14,11 +14,15 @@ public class Dictionary {
     // Props
     private List<String> fullWordList;
     private List<String> filteredList;
-    private Map<Character, Float> letterFrequency = new HashMap<>();
+    private List<FrequencyEntry> letterFrequency;
 
     // Init
     public Dictionary() {
+        this.init();
+    }
 
+    public Dictionary(String filePath) {
+        this.init(filePath);
     }
 
     /**
@@ -27,6 +31,7 @@ public class Dictionary {
      */
     public void init() {
         this.loadFrom(DICT_FILE);
+        this.letterFrequency = this.determineLetterFrequency(this.filteredList);
     }
 
     /**
