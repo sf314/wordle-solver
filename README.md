@@ -85,6 +85,7 @@ S | 5.6%
 L | 5.5%
 N | 5.4%
 T | 5.4%
+U | 4.5%
 
 From this, the following starter words are great:
 - RAISE
