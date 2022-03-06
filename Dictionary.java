@@ -71,7 +71,7 @@ public class Dictionary {
         Map<Character, Integer> letterCounts = new HashMap<>();
         for (String word : wordList) {
             for (int i = 0; i < word.length(); i++) {
-                Character letter = word.charAt(i)
+                Character letter = word.charAt(i);
                 totalLetters++;
 
                 // If this letter isn't in the map yet, then create an entry for it
