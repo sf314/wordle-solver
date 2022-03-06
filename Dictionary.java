@@ -63,7 +63,11 @@ public class Dictionary {
         this.filteredList = new ArrayList<>(this.fullWordList);
     }
 
-    private Map<Character, Float> determineLetterFrequency(List<String> wordList) {
+    /**
+     * Calculate the letter frequency for all letters in the provided wordlist
+     * @param wordList A list<string> of words
+     */
+    private List<FrequencyEntry> determineLetterFrequency(List<String> wordList) {
         // Note: Technically case doesn't matter (which makes this case-sensitive)
 
         // Count number of times each letter appears in the list
@@ -85,5 +89,13 @@ public class Dictionary {
         }
 
         // Compute frequency percentage for each letter
+        List<FrequencyEntry> frequencyMapping = new ArrayList<>();
+        final Integer total = totalLetters; // Required due to lambda grrr
+        letterCounts.forEach((letter, count) -> {
+            float frequency = count.floatValue() / total.floatValue();
+            frequencyMapping.add(new FrequencyEntry(letter, frequency));
+        });
+
+        return frequencyMapping;
     }
 }
