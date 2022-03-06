@@ -6,29 +6,12 @@ public class Solver {
     public static void main(String[] args) throws Exception {
         System.out.println("Wordle Solver");
 
-        // Read dictionary file into list
-        List<String> lines;
-        try {
-            Stream<String> stringStream = Files.lines(Paths.get(DICT_FILE));
-            lines = stringStream.toList();
-            stringStream.close(); // Required per Closable iface
-        } catch (Exception e) {
-            System.out.println("Failed to load dictionary!");
-            throw e;
-        }
-
-        List<String> dictionary = new ArrayList<>();
-        for (String l : lines) {
-            dictionary.add(l);
-        }
-
-        // Validate dictionary
-        System.out.println("Dictionary is of size: " + dictionary.size());
-        for (String word : dictionary) {
-            if (word.length() != 5) {
-                System.out.println("Word " + word + " is not 5 letters long!");
-            }
-        }
+        Dictionary dictionary = new Dictionary();
+        System.out.println("Dictionary size: " + dictionary.getSize());
+        System.out.println("Top words: ");
+        dictionary.printTopWords(10);
+        System.out.println("Top letters by frequency: ");
+        dictionary.printLetterFrequency(10);
 
         // Continually read input. Format: {guess} {result}
         Scanner scanner = new Scanner(System.in);
