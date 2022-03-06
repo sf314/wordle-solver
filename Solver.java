@@ -52,52 +52,25 @@ public class Solver {
                 continue;
             }
 
-            if (!lines.contains(guess)) {
+            if (!dictionary.contains(guess)) {
                 System.out.println("Guess needs to be a valid word!");
                 continue;
             }
 
             for (int i = 0; i < 5; i++) {
-                char ch = guess.charAt(i);
-                char charResult = result.charAt(i);
+                char letter = guess.charAt(i);
+                char status = result.charAt(i);
 
-                if (charResult == 'b') {
-                    System.out.println("Eliminating all words with " + ch);
-                    // Remove all words containing x
-                    dictionary.removeIf((word) -> {
-                        return word.contains(String.valueOf(ch));
-                    });
-                } else if (charResult == 'y') {
-                    System.out.println("Eliminating all words without " + ch);
-                    // Remove all words that don't contain x at all
-                    dictionary.removeIf((word) -> {
-                        return !word.contains(String.valueOf(ch));
-                    });
-
-                    System.out.println("Eliminating all words with " + ch + " at index " + i);
-                    // Remove all words that contain x at this specific index
-                    final int idex = i; // Required due to lambda grrrr
-                    dictionary.removeIf((word) -> {
-                        return word.charAt(idex) == ch;
-                    });
-                } else if (charResult == 'g') {
-                    System.out.println("Eliminating all words without " + ch + " at index " + i);
-                    // Remove all words that don't have x at this specific index
-                    final int idex = i;
-                    dictionary.removeIf((word) -> {
-                        return word.charAt(idex) != ch;
-                    });
-                } else {
-                    System.out.println("Invalid result char " + charResult);
-                }
+                // Filter the dictionary based on feedback from Wordle
+                dictionary.filter(letter, status, i);
             }
 
             // Print prelim results
-            System.out.println("New dictionary size: " + dictionary.size());
+            System.out.println("New dictionary size: " + dictionary.getSize());
             System.out.println("Top words: ");
-            for (int i = 0; i < (dictionary.size() > 50 ? 10 : dictionary.size()); i++) {
-                System.out.println("  " + dictionary.get(i));
-            }
+            dictionary.printTopWords(10);
+            System.out.println("Top letters by frequency: ");
+            dictionary.printLetterFrequency(10);
 
         }
         scanner.close();
