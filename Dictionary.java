@@ -217,8 +217,10 @@ public class Dictionary {
     }
 
     /**
-     * Calculate the letter frequency for all letters in the provided wordlist
-     * @param wordList A list<string> of words
+     * Calculate the letter frequency for all letters in the provided wordlist.
+     * Note: A FrequencyEntry is simply a tuple of (Character, Float).
+     * @param wordList A list<String> of words
+     * @return A list describing the frequency (percentage) of each letter in the wordlist
      */
     private List<FrequencyEntry> determineLetterFrequency(List<String> wordList) {
         // Note: Technically case doesn't matter (which makes this case-sensitive)
