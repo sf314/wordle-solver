@@ -7,7 +7,7 @@ public class Solver {
         System.out.println("Wordle Solver");
 
         Dictionary dictionary = new Dictionary();
-        System.out.println("Dictionary size: " + dictionary.getSize());
+        System.out.println("Dictionary size: " + dictionary.getCurrentSize());
         System.out.println("Top words: ");
         dictionary.printTopWords(10);
         System.out.println("Top letters by frequency: ");
@@ -66,7 +66,7 @@ public class Solver {
             }
 
             // Print prelim results
-            System.out.println("New dictionary size: " + dictionary.getSize());
+            System.out.println("New dictionary size: " + dictionary.getCurrentSize());
             System.out.println("Top words: ");
             dictionary.printTopWords(null);
             System.out.println("Top letters by frequency: ");

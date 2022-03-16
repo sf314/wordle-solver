@@ -57,7 +57,7 @@ public class Dictionary {
      * Get the number of words in the current filtered list
      * @return
      */
-    public int getSize() {
+    public int getCurrentSize() {
         return this.filteredList.size();
     }
 
