@@ -17,26 +17,10 @@ public class Dictionary {
     private List<FrequencyEntry> letterFrequency;
 
     /**
-     * Default initializer. Loads the default dictionary file.
-     */
-    public Dictionary() {
-        this.init();
-    }
-
-    /**
-     * Custom initializer. Loads the dictionary using the word list at the 
-     * given file path.
-     * @param filePath
-     */
-    public Dictionary(String filePath) {
-        this.init(filePath);
-    }
-
-    /**
-     * Initialize the dictionary using the default wordlist, and determine 
+     * Initialize the dictionary using the default 10k wordlist, and determine 
      * current letter frequency.
      */
-    public void init() {
+    public Dictionary() {
         this.loadFrom(DICT_FILE);
         this.letterFrequency = this.determineLetterFrequency(this.filteredList);
     }
@@ -46,7 +30,7 @@ public class Dictionary {
      * provided file path. Also determine current letter frequency.
      * @param filePath The path to a custom wordlist.
      */
-    public void init(String filePath) {
+    public Dictionary(String filePath) {
         this.loadFrom(filePath);
         this.letterFrequency = this.determineLetterFrequency(this.filteredList);
     }
