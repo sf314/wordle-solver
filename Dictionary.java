@@ -140,9 +140,9 @@ public class Dictionary {
 
     /**
      * Print an ordered list of the top words by score
-     * @param maxWords
+     * @param maxWords Default 25
      */
-    public void printTopWords(int maxWords) {
+    public void printTopWords(Integer maxWords) {
         // Create copy list of all words
         List<String> topWords = new ArrayList<>();
         topWords.addAll(this.filteredList);
@@ -155,7 +155,11 @@ public class Dictionary {
         });
 
         // Print words, up to `maxWords`
+        if (maxWords == null) {maxWords = 10;} // Default to 10
         int limit = Integer.min(maxWords, topWords.size());
+        if (topWords.size() < 50) {
+            limit = topWords.size();
+        }
         for (int i = 0; i < limit; i++) {
             String word = topWords.get(i);
             System.out.println((i + 1) + ". " + word + ": " + this.scoreForWord(word));

@@ -68,7 +68,7 @@ public class Solver {
             // Print prelim results
             System.out.println("New dictionary size: " + dictionary.getSize());
             System.out.println("Top words: ");
-            dictionary.printTopWords(10);
+            dictionary.printTopWords(null);
             System.out.println("Top letters by frequency: ");
             dictionary.printLetterFrequency(10);
 
