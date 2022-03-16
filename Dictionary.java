@@ -16,11 +16,18 @@ public class Dictionary {
     private List<String> filteredList;
     private List<FrequencyEntry> letterFrequency;
 
-    // Init
+    /**
+     * Default initializer. Loads the default dictionary file.
+     */
     public Dictionary() {
         this.init();
     }
 
+    /**
+     * Custom initializer. Loads the dictionary using the word list at the 
+     * given file path.
+     * @param filePath
+     */
     public Dictionary(String filePath) {
         this.init(filePath);
     }
@@ -166,6 +173,14 @@ public class Dictionary {
         }
     }
 
+    /**
+     * Calculate the "score" for a given word, where score is an arbitrary
+     * heuristic to decide how good of a guess a word is. A higher score means
+     * the word will knock out more of the dictionary, and thus help you more
+     * quickly converge on the solution.
+     * @param word
+     * @return
+     */
     private Float scoreForWord(String word) {
         // Convert letter frequency to map for easy lookup
         Map<Character, Float> freqMap = new HashMap<>();
