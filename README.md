@@ -1,5 +1,30 @@
 # Wordle solver
 
+## Quickstart:
+
+Build the project, using `javac` compiler:
+```sh
+make
+```
+
+Run the project, by starting `main()` defined in the Solver class:
+```sh
+make run
+```
+
+Provide a guess to the solver, like `arose`, and the results of that guess 
+(`b`lack, `y`ellow, `g`reen). A list of top-10 words and letters is provided:
+```
+Command: guess, exit
+> guess
+Guess the first word.
+> arose yybby
+```
+
+Continue guessing, and the dictionary size will get significantly smaller! The
+first guess typically reduces the search space from ~10,000 down to ~300 (97%
+reduction).
+
 ## Potential word list
 
 The word list in the `dictionary.txt` file is derived from all the 5-letter
